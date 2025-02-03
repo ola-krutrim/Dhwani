@@ -67,62 +67,6 @@ def kmeans(samples, num_clusters, num_iters=10, use_cosine_sim=False):
     return means, bins
 
 
-class EmbeddingEMA(nn.Module):
-    def __init__(self, num_tokens, codebook_dim, decay=0.99, eps=1e-5, kmeans_init=True, codebook_init_path=''):
-        super().__init__()
-        self.num_tokens = num_tokens
-        self.codebook_dim = codebook_dim
-        self.decay = decay
-        self.eps = eps
-        if codebook_init_path == '':
-            if not kmeans_init:
-                weight = torch.randn(num_tokens, codebook_dim)
-                weight = l2norm(weight)
-            else:
-                weight = torch.zeros(num_tokens, codebook_dim)
-            self.register_buffer('initted', torch.Tensor([not kmeans_init]))
-        else:
-            print(f"load init codebook weight from {codebook_init_path}")
-            codebook_ckpt_weight = torch.load(codebook_init_path, map_location='cpu')
-            weight = codebook_ckpt_weight.clone()
-            self.register_buffer('initted', torch.Tensor([True]))
-
-        self.weight = nn.Parameter(weight, requires_grad=False)
-        self.cluster_size = nn.Parameter(torch.zeros(num_tokens), requires_grad=False)
-        self.embed_avg = nn.Parameter(weight.clone(), requires_grad=False)
-        # self.register_buffer('initted', torch.Tensor([not kmeans_init]))
-        self.update = True
-
-    @torch.jit.ignore
-    def init_embed_(self, data):
-        if self.initted:
-            return
-        print("Performing Kemans init for codebook")
-        embed, cluster_size = kmeans(data, self.num_tokens, 10, use_cosine_sim=True)
-        self.weight.data.copy_(embed)
-        self.cluster_size.data.copy_(cluster_size)
-        self.initted.data.copy_(torch.Tensor([True]))
-
-    def forward(self, embed_id):
-        return F.embedding(embed_id, self.weight)
-
-    def cluster_size_ema_update(self, new_cluster_size):
-        self.cluster_size.data.mul_(self.decay).add_(new_cluster_size, alpha=1 - self.decay)
-
-    def embed_avg_ema_update(self, new_embed_avg):
-        self.embed_avg.data.mul_(self.decay).add_(new_embed_avg, alpha=1 - self.decay)
-
-    def weight_update(self, num_tokens):
-        n = self.cluster_size.sum()
-        smoothed_cluster_size = (
-                (self.cluster_size + self.eps) / (n + num_tokens * self.eps) * n
-        )
-        # normalize embedding average with smoothed cluster size
-        embed_normalized = self.embed_avg / smoothed_cluster_size.unsqueeze(1)
-        # embed_normalized = l2norm(self.embed_avg / smoothed_cluster_size.unsqueeze(1))
-        self.weight.data.copy_(embed_normalized)
-
-
 def norm_ema_inplace(moving_avg, new, decay):
     moving_avg.data.mul_(decay).add_(new, alpha=(1 - decay))
     moving_avg.data.copy_(l2norm(moving_avg.data))
