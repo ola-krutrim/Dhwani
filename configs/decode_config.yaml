@@ -1,0 +1,66 @@
+# Copyright (2024) Tsinghua University, Bytedance Ltd. and/or its affiliates
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+job_id: "202408041504"
+
+model:
+  # paths
+  #llama_path: "/mnt/disk2/ASR/salmon_models/vicuna-13b-v1.1"
+  llama_path: "/mnt/disk2/ASR/salmon_models/krutrim_model/responder_v2_mpt"
+  whisper_path: "/mnt/disk2/ASR/salmon_models/whisper-large-v2"
+  beats_path: "/mnt/disk2/ASR/salmon_models/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt"
+
+  #ckpt: "/mnt/disk2/ASR/salmon_models/salmonn_v1.pth" # model used for decoding
+  #ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN/Output/202407291210/checkpoint_best.pth" # model used for decoding
+  ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN-KRUTRIM/Output/202408041504/checkpoint_best.pth"
+  #ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN-KRUTRIM/Output/202407311837/checkpoint_0.pth"
+  
+  #ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN-KRUTRIM/Output/202407311837/checkpoint_best.pth"
+
+  freeze_whisper: True
+  freeze_beats: True
+
+  # window-level Q-Former
+  use_speech_Qformer: True
+  freeze_speech_QFormer: False
+  window_level_Qformer: True
+  num_speech_query_token: 1
+  second_per_window: 0.333333
+  second_stride: 0.333333
+
+  speech_llama_proj_model: ""
+  freeze_speech_llama_proj: False
+
+  # LoRA
+  lora: True
+  lora_rank: 8
+  lora_alpha: 32
+  lora_dropout: 0.1
+
+  multi_prompt: True
+  prompt_template: "USER: {}\nASSISTANT:"
+  prompt_path: "prompts/train_prompt.json"
+  test_prompt_path: "prompts/test_prompt.json"
+  max_txt_len: 300
+  end_sym: "</s>"
+
+generate:
+  max_new_tokens: 1024
+  num_beams: 4
+  do_sample: False #originally this was False
+  min_length: 1
+  temperature: 1.0
+  top_p: 0.9
+  repetition_penalty: 1.0
+  length_penalty: 1.0

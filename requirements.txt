@@ -1,0 +1,10 @@
+peft==0.3.0
+soundfile 
+librosa
+transformers
+sentencepiece
+accelerate
+gradio
+omegaconf
+einops
+numpy==1.26.4
