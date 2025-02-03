@@ -19,7 +19,11 @@ Current model trained using [SALMONN](https://openreview.net/pdf?id=14rn7HpKVk) 
 To adapt Q-former and LoRA weights, we used techniques mentioned in the paper [IndicST](https://huggingface.co/datasets/krutrim-ai-labs/IndicST). Along with the IndicST translation dataset, we also used in-house-collected translation data to further improve the performance of translation results.
 
 ## Model Downloads
-To run the model locally, visit the [Dhwani Hugging Face Repo](https://huggingface.co/krutrim-ai-labs/Dhwani/blob/main/checkpoint_best.pth).
+
+1. Download [whisper large v2](https://huggingface.co/openai/whisper-large-v2/tree/main).
+2. Download [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://1drv.ms/u/s!AqeByhGUtINrgcpj8ujXH1YUtxooEg?e=E9Ncea).
+3. Download [krutrim llm](https://huggingface.co/krutrim-ai-labs/Krutrim-2-base).
+4. Download [ckpt](https://huggingface.co/krutrim-ai-labs/Dhwani/blob/main/checkpoint_best.pth).
 
 ## Evaluation Results
 
@@ -55,9 +59,9 @@ Visit [Dhwani Online](https://cloud.olakrutrim.com/console/languageLabs?section=
 ### How to inference in CLI
 
 1. Our environment: The python version is 3.9.17, and other required packages can be installed with the following command: ```pip install -r requirements.txt```.
-2. Download [whisper large v2](https://huggingface.co/openai/whisper-large-v2/tree/main) to ```whisper_path```.
-3. Download [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://1drv.ms/u/s!AqeByhGUtINrgcpj8ujXH1YUtxooEg?e=E9Ncea) to `beats_path`.
-4. Download [krutrim llm](https://huggingface.co/krutrim-ai-labs/Dhwani/blob/main/checkpoint_best.pth) to ```llama_path```.
+2. add [whisper large v2](https://huggingface.co/openai/whisper-large-v2/tree/main) to ```whisper_path```.
+3. add [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://1drv.ms/u/s!AqeByhGUtINrgcpj8ujXH1YUtxooEg?e=E9Ncea) to `beats_path`.
+4. add [krutrim llm](https://huggingface.co/krutrim-ai-labs/Dhwani/blob/main/checkpoint_best.pth) to ```llama_path```.
 5. add krutrim ckpt path to ```ckpt```.
 6. Running with ```python3 cli_inference.py --cfg-path configs/decode_config.yaml``` in A100-SXM-80GB. Now you can input ```wav_path``` and ```prompt```. Enjoy yourself !
 
