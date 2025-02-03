@@ -1,10 +1,10 @@
 peft==0.3.0
-soundfile 
-librosa
-transformers
+soundfile==0.13.0
+librosa==0.10.2.post1
+transformers==4.48.1
 sentencepiece
 accelerate
-gradio
 omegaconf
 einops
 numpy==1.26.4
+tensorboardX
