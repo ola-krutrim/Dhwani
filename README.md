@@ -1,9 +1,9 @@
 # Dhwani - Indic Speech To Text Translation
 
-## 1. Introduction
+## Introduction
 Dhwani enables Speech-to-Text Translation for Indic Languages. It supports translation from Indic Language (X) → English and vice-versa.
 
-## 2. Model Summary
+## Model Summary
 
 Current model trained using [SALMONN](https://openreview.net/pdf?id=14rn7HpKVk) architecture.
 
@@ -16,11 +16,12 @@ Current model trained using [SALMONN](https://openreview.net/pdf?id=14rn7HpKVk) 
 
 
 ### PostTraining
+To adapt Q-former and LoRA weights, we used techniques mentioned in the paper [IndicST](https://huggingface.co/datasets/krutrim-ai-labs/IndicST). Along with the IndicST translation dataset, we also used in-house-collected translation data to further improve the performance of translation results.
 
-## 3. Model Downloads
+## Model Downloads
 To run the model locally, visit the [Dhwani Hugging Face Repo](https://huggingface.co/krutrim-ai-labs/Dhwani/blob/main/checkpoint_best.pth).
 
-## 4. Evaluation Results
+## Evaluation Results
 
 ### En → Indic (X) BLEU Scores:
 | Language Pair | BLEU Score |
@@ -48,7 +49,7 @@ To run the model locally, visit the [Dhwani Hugging Face Repo](https://huggingfa
 | kan → en | 28.0 |
 | **Average** | **30.0** |
 
-## 5. API Platform
+## API Platform
 Visit [Dhwani Online](https://cloud.olakrutrim.com/console/languageLabs?section=speech) to access the model via the web interface. 
 
 ### How to inference in CLI
@@ -68,25 +69,19 @@ Visit [Dhwani Online](https://cloud.olakrutrim.com/console/languageLabs?section=
 
 
 
-## 6. License
+## License
+This code repository and the model weights are licensed under the MIT License.
 
-## 7. Citation
-
+## Citation
+```
 @inproceedings{
   sanket2025IndicST,
   title={{IndicST}: Indian Multilingual Translation Corpus For Evaluating Speech Large Language Models},
   author={Sanket Shah, Kavya Ranjan Saxena, Kancharana Manideep Bharadwaj, Sharath Adavanne, Nagaraj Adiga},
-  booktitle={Proc. Satellite Workshop SALMA: Speech and Audio Language Models - Architectures, Data Sources, and Training Paradigms, ICASSP},
+  booktitle={Proc. ICASSP},
   year={2025},
 }
+```
 
-@inproceedings{
-  tang2024salmonn,
-  title={{SALMONN}: Towards Generic Hearing Abilities for Large Language Models},
-  author={Changli Tang and Wenyi Yu and Guangzhi Sun and Xianzhao Chen and Tian Tan and Wei Li and Lu Lu and Zejun MA and Chao Zhang},
-  booktitle={The Twelfth International Conference on Learning Representations},
-  year={2024},
-  url={https://openreview.net/forum?id=14rn7HpKVk}
-}
-## 8. Contact
+## Contact
 Contributions are welcome! If you have any improvements or suggestions, feel free to submit a pull request on GitHub.
