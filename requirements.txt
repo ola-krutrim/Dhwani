@@ -1,10 +1,10 @@
 peft==0.3.0
 soundfile==0.13.0
 librosa==0.10.2.post1
-transformers==4.48.1
-sentencepiece
-accelerate
-omegaconf
-einops
+transformers==4.34.0
+sentencepiece==0.1.97
+accelerate==0.20.3
+omegaconf==2.3.0
+einops==0.8.0
 numpy==1.26.4
 tensorboardX
