@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+
 import logging
 import json
 import contextlib
@@ -104,13 +106,14 @@ class DHWANI(nn.Module):
         self.end_sym = end_sym
         self.low_resource = low_resource
 
-        logging.info('Loading LLaMA Tokenizer')
-        #self.llama_tokenizer = LlamaTokenizer.from_pretrained(llama_path, use_fast=False)
+        logging.info('Loading Krutrim Tokenizer')
         self.llama_tokenizer = AutoTokenizer.from_pretrained(llama_path, use_fast=False)
         self.llama_tokenizer.add_special_tokens({'pad_token': '[PAD]'})
         self.llama_tokenizer.padding_side = "right"
 
-        logging.info('Loading LLaMA Model')
+
+        # the tokenizer and model loading transformer libraries are modified as per the Krutrim Model's requirements.
+        logging.info('Loading Krutrim Model')
         if self.low_resource:
             self.llama_model = AutoModelForCausalLM.from_pretrained(
                 llama_path,
@@ -129,7 +132,7 @@ class DHWANI(nn.Module):
         self.llama_model.resize_token_embeddings(len(self.llama_tokenizer))
         for name, param in self.llama_model.named_parameters():
             param.requires_grad = False
-        logging.info('Loading LLaMA Done')
+        logging.info('Loading Krutrim Done')
 
         if self.lora:
             self.peft_config = LoraConfig(
@@ -190,10 +193,8 @@ class DHWANI(nn.Module):
                 logging.info("freeze Speech QFormer")
 
             logging.info('Loading speech LLAMA proj')
-            # self.speech_llama_proj = nn.Linear(
-            #     self.speech_Qformer.config.hidden_size, self.llama_model.config.hidden_size
-            # )
-            ##specific to krutrim model
+
+            # Changed based on Krutrim LLM
             self.speech_llama_proj = nn.Linear(
                 self.speech_Qformer.config.hidden_size, self.llama_model.config.d_model
             )
@@ -288,18 +289,15 @@ class DHWANI(nn.Module):
                     b, a = p.split("<SpeechHere>")
                     p_before.append(b)
                     p_after.append(a)
-                
+                # text embeddings are extracted using transformer libraries which are specific to Krutrim LLM model architecture.
                 p_before_tokens = self.llama_tokenizer(
                     p_before, return_tensors="pt", add_special_tokens=False
                 ).to(embeds.device)
-                #p_before_embeds = self.llama_model.model.embed_tokens(p_before_tokens.input_ids) if not self.lora else self.llama_model.model.model.embed_tokens(p_before_tokens.input_ids)
                 p_before_embeds = self.llama_model.transformer.wte(p_before_tokens.input_ids) if not self.lora else self.llama_model.transformer.wte(p_before_tokens.input_ids)
 
-                # speech_embeds wrapped with prompts_embeds are padded to the same length here
                 p_after_tokens = self.llama_tokenizer(
                     p_after, return_tensors="pt", padding="longest", add_special_tokens=False
                 ).to(embeds.device)
-                #p_after_embeds = self.llama_model.model.embed_tokens(p_after_tokens.input_ids) if not self.lora else self.llama_model.model.model.embed_tokens(p_after_tokens.input_ids)
                 p_after_embeds = self.llama_model.transformer.wte(p_after_tokens.input_ids) if not self.lora else self.llama_model.transformer.wte(p_after_tokens.input_ids)
 
                 wrapped_embeds = torch.cat([p_before_embeds, embeds, p_after_embeds], dim=1)
