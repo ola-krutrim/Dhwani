@@ -12,21 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+# All the parameters have been modified as per the new models used/trained.
+
 job_id: "202408041504"
 
 model:
-  # paths
-  #llama_path: "/mnt/disk2/ASR/salmon_models/vicuna-13b-v1.1"
   llama_path: "/mnt/disk2/ASR/salmon_models/krutrim_model/responder_v2_mpt"
   whisper_path: "/mnt/disk2/ASR/salmon_models/whisper-large-v2"
   beats_path: "/mnt/disk2/ASR/salmon_models/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt"
 
-  #ckpt: "/mnt/disk2/ASR/salmon_models/salmonn_v1.pth" # model used for decoding
-  #ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN/Output/202407291210/checkpoint_best.pth" # model used for decoding
   ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN-KRUTRIM/Output/202408041504/checkpoint_best.pth"
-  #ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN-KRUTRIM/Output/202407311837/checkpoint_0.pth"
-  
-  #ckpt: "/mnt/disk2/ASR/salmon_models/SALMONN-KRUTRIM/Output/202407311837/checkpoint_best.pth"
 
   freeze_whisper: True
   freeze_beats: True
