@@ -80,7 +80,7 @@ Visit [Dhwani Online](https://cloud.olakrutrim.com/console/languageLabs?section=
 
 
 ## License
-TBD
+This code repository and the model weights are licensed under the [Krutrim Community License.](LICENSE.md)
 
 ## Citation
 ```
