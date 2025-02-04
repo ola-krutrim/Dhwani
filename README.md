@@ -7,6 +7,8 @@ viewer: false
 ## Introduction
 Dhwani enables Speech-to-Text Translation for Indic Languages. It supports translation from Indic Language (X) → English and vice-versa.
 
+[![Dhwani](https://img.youtube.com/vi/T3qA4pmTDb4/0.jpg)](https://www.youtube.com/watch?v=T3qA4pmTDb4)
+
 ## Model Summary
 
 Current model trained using [SALMONN](https://openreview.net/pdf?id=14rn7HpKVk) architecture.
