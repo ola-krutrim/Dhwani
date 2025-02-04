@@ -63,13 +63,12 @@ Visit [Dhwani Online](https://cloud.olakrutrim.com/console/languageLabs?section=
 ### How to inference in CLI
 
 1. conda create -n dhwani_env python=3.9.17
-2. conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia (refer to [Pytorch Documentation](https://pytorch.org/get-started/locally/) )
-3. Our environment: The python version is 3.9.17, and other required packages can be installed with the following command: ```pip install -r requirements.txt```.
-4. add [whisper large v2](https://huggingface.co/openai/whisper-large-v2/tree/main) to ```whisper_path```.
-5. add [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://1drv.ms/u/s!AqeByhGUtINrgcpj8ujXH1YUtxooEg?e=E9Ncea) to `beats_path`.
-6. add [krutrim llm](https://huggingface.co/krutrim-ai-labs/Dhwani/blob/main/checkpoint_best.pth) to ```llama_path```.
-7. add krutrim ckpt path to ```ckpt```.
-8. Running with ```python3 cli_inference.py --cfg-path configs/decode_config.yaml``` in A100-SXM-80GB. Now you can input ```wav_path``` and ```prompt```. Enjoy yourself !
+2. Our environment: The python version is 3.9.17, and other required packages can be installed with the following command: ```pip install -r requirements.txt```.
+3. add [whisper large v2](https://huggingface.co/openai/whisper-large-v2/tree/main) to ```whisper_path```.
+4. add [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://1drv.ms/u/s!AqeByhGUtINrgcpj8ujXH1YUtxooEg?e=E9Ncea) to `beats_path`.
+5. add [krutrim llm](https://huggingface.co/krutrim-ai-labs/Dhwani/blob/main/checkpoint_best.pth) to ```llama_path```.
+6. add krutrim ckpt path to ```ckpt```.
+7. Running with ```python3 cli_inference.py --cfg-path configs/decode_config.yaml``` in A100-SXM-80GB. Now you can input ```wav_path``` and ```prompt```. Enjoy yourself !
 
 ### How to infer the model
 
