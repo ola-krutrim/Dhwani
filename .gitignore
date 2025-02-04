@@ -1,1 +1,4 @@
 ckpt/*
+__pycache__/
+models/__pycache__/
+models/beats/__pycache__/
