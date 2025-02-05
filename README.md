@@ -29,7 +29,7 @@ To adapt Q-former and LoRA weights, we used techniques mentioned in the paper [
 
 1. Download [whisper large v2](https://huggingface.co/openai/whisper-large-v2/tree/main).
 2. Download [Fine-tuned BEATs_iter3+ (AS2M) (cpt2)](https://1drv.ms/u/s!AqeByhGUtINrgcpj8ujXH1YUtxooEg?e=E9Ncea).
-3. Download [krutrim llm](https://huggingface.co/krutrim-ai-labs/Krutrim-2-base).
+3. Download [krutrim llm](https://huggingface.co/krutrim-ai-labs/Krutrim-1-base).
 4. Download [ckpt](https://huggingface.co/datasets/krutrim-ai-labs/Dhwani/blob/main/ckpt/checkpoint_best.pth).
 
 ## Evaluation Results
