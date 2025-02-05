@@ -13,6 +13,10 @@
 # limitations under the License.
 
 
+# Krutrim-AI-Labs Changes / Modifications done as follows:
+# 1. Used AutoModelForCausalLM for loading the Krutrim LLM.
+# 2. Used Krutrim Model specific libraries to extract text embeddings.
+
 
 import logging
 import json
@@ -357,7 +361,6 @@ class DHWANI(nn.Module):
             max_length=self.max_txt_len,
             add_special_tokens=False
         ).to(spectrogram.device)
-        #to_regress_embeds = self.llama_model.model.embed_tokens(to_regress_tokens.input_ids) if not self.lora else self.llama_model.model.model.embed_tokens(to_regress_tokens.input_ids)
         to_regress_embeds = self.llama_model.transformer.wte(to_regress_tokens.input_ids) if not self.lora else self.llama_model.transformer.wte(to_regress_tokens.input_ids)
         targets = to_regress_tokens.input_ids.masked_fill(
             to_regress_tokens.input_ids == self.llama_tokenizer.pad_token_id, -100
@@ -376,7 +379,6 @@ class DHWANI(nn.Module):
             dtype=to_regress_tokens.input_ids.dtype,
             device=to_regress_tokens.input_ids.device,
         ) * self.llama_tokenizer.bos_token_id
-        #bos_embeds = self.llama_model.model.embed_tokens(bos) if not self.lora else self.llama_model.model.model.embed_tokens(bos)
         bos_embeds = self.llama_model.transformer.wte(bos) if not self.lora else self.llama_model.transformer.wte(bos)
         atts_bos = speech_atts[:, :1]
 
@@ -424,7 +426,6 @@ class DHWANI(nn.Module):
             dtype=torch.int32,
             device=speech_embeds.device,
         ) * self.llama_tokenizer.bos_token_id
-        #bos_embeds = self.llama_model.model.embed_tokens(bos) if not self.lora else self.llama_model.model.model.embed_tokens(bos)
         bos_embeds = self.llama_model.transformer.wte(bos) if not self.lora else self.llama_model.transformer.wte(bos)
         
         atts_bos = speech_atts[:, :1]
@@ -434,7 +435,6 @@ class DHWANI(nn.Module):
 
         stop_words_ids = [torch.tensor([2]).cuda()] 
         stopping_criteria = StoppingCriteriaList([StoppingCriteriaSub(stops=stop_words_ids)])
-        #stopping_criteria = StoppingCriteriaList([StoppingCriteriaSub(stops = [  torch.tensor([2]).cuda()])])
         outputs = self.llama_model.generate(
             inputs_embeds=embeds,
             max_new_tokens=generate_cfg.get("max_new_tokens", 200),

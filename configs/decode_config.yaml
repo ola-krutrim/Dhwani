@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Krutrim-AI-Labs
+# We have updated the code for different parameters which are specific to the data, task, and the pretrained models we have used.
+
 job_id: "202408041504"
 
 model:
