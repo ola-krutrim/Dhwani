@@ -19,11 +19,11 @@ job_id: "202408041504"
 
 model:
   # paths
-  llama_path: ""
-  whisper_path: ""
-  beats_path: ""
-
-  ckpt: ""
+  llama_path: "krutrim-ai-labs/Krutrim-1-instruct"
+  whisper_path: "openai/whisper-large-v2"
+  beats_path: "WeiChihChen/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2"
+  ckpt: "krutrim-ai-labs/Dhwani"
+  ckpt_filename: "checkpoint_best.bin"
 
   freeze_whisper: True
   freeze_beats: True
