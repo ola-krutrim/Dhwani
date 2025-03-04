@@ -18,6 +18,7 @@
 # 2. Used Krutrim Model specific libraries to extract text embeddings.
 
 
+from .hfmodel import HFMODEL
 import logging
 import json
 import contextlib
@@ -34,7 +35,7 @@ from .modeling_whisper import WhisperModel
 from .beats.BEATs import BEATsConfig, BEATs
 from .utils import StoppingCriteriaSub
 
-
+hf_model = HFMODEL()  # Create an instance of the class
 class DHWANI(nn.Module):
     @classmethod
     def init_speech_Qformer(cls, num_query_token, speech_width, num_hidden_layers=2):
@@ -114,7 +115,7 @@ class DHWANI(nn.Module):
         self.llama_tokenizer = AutoTokenizer.from_pretrained(llama_path, use_fast=False)
         self.llama_tokenizer.add_special_tokens({'pad_token': '[PAD]'})
         self.llama_tokenizer.padding_side = "right"
-
+        
 
         # the tokenizer and model loading transformer libraries are modified as per the Krutrim Model's requirements.
         logging.info('Loading Krutrim Model')
@@ -163,7 +164,11 @@ class DHWANI(nn.Module):
         
         if self.beats_path:
             logging.info("Loading BEATs Model")
-            beats_ckpt = torch.load(self.beats_path, map_location='cpu')
+<<<<<<< HEAD
+            beats_ckpt = hf_model.load_hf_model("WeiChihChen/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2", "BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt")
+=======
+            beats_ckpt = hf_model.load_hf_model(self.beats_path, f"{self.beats_path.split('/')[-1]}.pt" )
+>>>>>>> d67a187 (added code to simplify model downloads from hugging face)
             beats_cfg = BEATsConfig(beats_ckpt['cfg'])
             self.beats = BEATs(beats_cfg)
             self.beats.load_state_dict(beats_ckpt['model'])
@@ -452,12 +457,15 @@ class DHWANI(nn.Module):
         text = self.llama_tokenizer.batch_decode(outputs, add_special_tokens=False)
         return text
 
+    
+
     @classmethod
     def from_config(cls, config):
         llama_path = config.get("llama_path")
         whisper_path = config.get("whisper_path")
         freeze_whisper = config.get("freeze_whisper", True)
         beats_path = config.get("beats_path", "")
+        
         freeze_beats = config.get("freeze_beats", True)
 
         use_speech_Qformer = config.get("use_speech_Qformer", True)
@@ -511,13 +519,10 @@ class DHWANI(nn.Module):
         )
 
         ckpt_path = config.get("ckpt", "")
-        if ckpt_path:
+        ckpt_filename = config.get("ckpt_filename", "")
+        if ckpt_path and ckpt_filename:
             logging.info("Load DHWANI ckpt from: {}".format(ckpt_path))
-            ckpt = torch.load(ckpt_path, map_location="cpu")
+            ckpt = hf_model.load_hf_model(ckpt_path, ckpt_filename)
             model.load_state_dict(ckpt['model'], strict=False)
 
         return model
-
-
-# કોર્ટે આ નિર્ણય કોઈ લિંગભેદના આધારે ધ્યાનમાં લીધા વિના આર્થિક નિર્પાત્તને આધારે આપ્યો હતો
-# देवराज बीत चुकी थी
