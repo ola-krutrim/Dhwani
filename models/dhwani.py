@@ -164,11 +164,7 @@ class DHWANI(nn.Module):
         
         if self.beats_path:
             logging.info("Loading BEATs Model")
-<<<<<<< HEAD
-            beats_ckpt = hf_model.load_hf_model("WeiChihChen/BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2", "BEATs_iter3_plus_AS2M_finetuned_on_AS2M_cpt2.pt")
-=======
             beats_ckpt = hf_model.load_hf_model(self.beats_path, f"{self.beats_path.split('/')[-1]}.pt" )
->>>>>>> d67a187 (added code to simplify model downloads from hugging face)
             beats_cfg = BEATsConfig(beats_ckpt['cfg'])
             self.beats = BEATs(beats_cfg)
             self.beats.load_state_dict(beats_ckpt['model'])
